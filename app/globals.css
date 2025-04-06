@@ -95,3 +95,11 @@ body {
 .age-select [data-radix-popper-content-wrapper] {
   z-index: 9998 !important;
 }
+
+/* ボタンのカーソルスタイルを指マークに設定 */
+button, 
+.cursor-pointer,
+[role="button"],
+a {
+  cursor: pointer !important;
+}

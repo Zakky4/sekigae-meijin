@@ -10,6 +10,7 @@ export default function ResultsPage() {
   const { participants, settings, groups, setGroups } = useStore()
   const [copied, setCopied] = useState(false)
   const hasExecutedRef = useRef(false)
+  const [selectedGroup, setSelectedGroup] = useState<number | null>(null)
 
   useEffect(() => {
     // 既に実行済みの場合は再実行しない
@@ -33,6 +34,15 @@ export default function ResultsPage() {
     navigator.clipboard.writeText(text)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
+  }
+
+  // グループを選択する関数
+  const toggleGroupSelection = (groupId: number) => {
+    if (selectedGroup === groupId) {
+      setSelectedGroup(null)
+    } else {
+      setSelectedGroup(groupId)
+    }
   }
 
   // 参加者がいない場合
@@ -59,7 +69,11 @@ export default function ResultsPage() {
         
         <div className="space-y-8 mb-8">
           {groups.map((group) => (
-            <div key={group.id} className="p-6 border rounded-lg">
+            <div 
+              key={group.id} 
+              className={`p-6 border rounded-lg transition-all duration-200 cursor-pointer hover:shadow-md ${selectedGroup === group.id ? 'border-primary bg-primary/5' : ''}`}
+              onClick={() => toggleGroupSelection(group.id)}
+            >
               <h2 className="text-xl font-semibold mb-4">グループ {group.id}</h2>
               <div className="space-y-2">
                 {group.members.map((member) => (
