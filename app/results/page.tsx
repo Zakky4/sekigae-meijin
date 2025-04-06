@@ -1,48 +1,27 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Button } from "../components/ui/button"
 import Link from 'next/link'
-
-interface Participant {
-  id: string
-  name: string
-  gender: 'male' | 'female' | 'other'
-  ageGroup: 'child' | 'teen' | 'adult' | 'senior'
-}
-
-interface Group {
-  id: number
-  members: Participant[]
-}
+import { useStore } from "../store"
+import { generateGroups } from "../utils/seating"
 
 export default function ResultsPage() {
-  const [groups, setGroups] = useState<Group[]>([])
+  const { participants, settings, groups, setGroups } = useStore()
   const [copied, setCopied] = useState(false)
+  const hasExecutedRef = useRef(false)
 
   useEffect(() => {
-    // ここで実際の席替えロジックを実装
-    // 仮のデータで表示
-    const mockGroups: Group[] = [
-      {
-        id: 1,
-        members: [
-          { id: '1', name: '山田太郎', gender: 'male', ageGroup: 'adult' },
-          { id: '2', name: '鈴木花子', gender: 'female', ageGroup: 'adult' },
-          { id: '3', name: '佐藤一郎', gender: 'male', ageGroup: 'teen' },
-        ]
-      },
-      {
-        id: 2,
-        members: [
-          { id: '4', name: '田中次郎', gender: 'male', ageGroup: 'adult' },
-          { id: '5', name: '中村美咲', gender: 'female', ageGroup: 'teen' },
-          { id: '6', name: '小林三郎', gender: 'male', ageGroup: 'adult' },
-        ]
-      }
-    ]
-    setGroups(mockGroups)
-  }, [])
+    // 既に実行済みの場合は再実行しない
+    if (hasExecutedRef.current) return;
+    
+    // 参加者情報と設定に基づいて席替えを実行
+    if (participants.length > 0) {
+      const newGroups = generateGroups(participants, settings)
+      setGroups(newGroups)
+      hasExecutedRef.current = true;
+    }
+  }, [participants, settings, setGroups]);
 
   const copyToClipboard = () => {
     const text = groups.map(group => 
@@ -54,6 +33,23 @@ export default function ResultsPage() {
     navigator.clipboard.writeText(text)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
+  }
+
+  // 参加者がいない場合
+  if (participants.length === 0) {
+    return (
+      <main className="container mx-auto px-4 py-8">
+        <div className="max-w-2xl mx-auto text-center">
+          <h1 className="text-3xl font-bold mb-6">参加者情報がありません</h1>
+          <p className="mb-8">席替えを行うには参加者情報を入力してください。</p>
+          <Link href="/participants">
+            <Button>
+              参加者情報入力に戻る
+            </Button>
+          </Link>
+        </div>
+      </main>
+    )
   }
 
   return (
@@ -69,10 +65,10 @@ export default function ResultsPage() {
                 {group.members.map((member) => (
                   <div key={member.id} className="flex items-center space-x-4">
                     <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-                      {member.name[0]}
+                      {member.name[0] || '?'}
                     </div>
                     <div>
-                      <div className="font-medium">{member.name}</div>
+                      <div className="font-medium">{member.name || '名前なし'}</div>
                       <div className="text-sm text-gray-500">
                         {member.gender === 'male' ? '男性' : member.gender === 'female' ? '女性' : 'その他'} / 
                         {member.ageGroup === 'child' ? '子ども' : 

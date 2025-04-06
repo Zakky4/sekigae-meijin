@@ -1,30 +1,30 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Button } from "../components/ui/button"
 import { Label } from "../components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select"
 import Link from 'next/link'
-
-interface Settings {
-  groupType: 'count' | 'size'
-  groupCount: number
-  groupSize: number
-  balanceGender: boolean
-  balanceAge: boolean
-}
+import { useStore } from '../store'
 
 export default function SettingsPage() {
-  const [settings, setSettings] = useState<Settings>({
-    groupType: 'count',
-    groupCount: 2,
-    groupSize: 4,
-    balanceGender: true,
-    balanceAge: true
-  })
+  const { settings, setSettings, participants } = useStore()
+  const [localSettings, setLocalSettings] = useState(settings)
+  const initializedRef = useRef(false)
 
-  const updateSetting = (field: keyof Settings, value: any) => {
-    setSettings(prev => ({ ...prev, [field]: value }))
+  // 初期化時にストアから設定を取得（一度だけ）
+  useEffect(() => {
+    if (!initializedRef.current) {
+      setLocalSettings(settings)
+      initializedRef.current = true
+    }
+  }, [settings])
+
+  // 設定を変更する関数
+  const updateSetting = (field: keyof typeof settings, value: any) => {
+    const updatedSettings = { ...localSettings, [field]: value }
+    setLocalSettings(updatedSettings)
+    setSettings(updatedSettings)
   }
 
   return (
@@ -36,7 +36,7 @@ export default function SettingsPage() {
           <div>
             <Label>グループの指定方法</Label>
             <Select
-              value={settings.groupType}
+              value={localSettings.groupType}
               onValueChange={(value: 'count' | 'size') => updateSetting('groupType', value)}
             >
               <SelectTrigger>
@@ -49,11 +49,11 @@ export default function SettingsPage() {
             </Select>
           </div>
 
-          {settings.groupType === 'count' ? (
+          {localSettings.groupType === 'count' ? (
             <div>
               <Label>グループ数</Label>
               <Select
-                value={settings.groupCount.toString()}
+                value={localSettings.groupCount.toString()}
                 onValueChange={(value) => updateSetting('groupCount', parseInt(value))}
               >
                 <SelectTrigger>
@@ -72,7 +72,7 @@ export default function SettingsPage() {
             <div>
               <Label>1グループあたりの人数</Label>
               <Select
-                value={settings.groupSize.toString()}
+                value={localSettings.groupSize.toString()}
                 onValueChange={(value) => updateSetting('groupSize', parseInt(value))}
               >
                 <SelectTrigger>
@@ -94,7 +94,7 @@ export default function SettingsPage() {
               <input
                 type="checkbox"
                 id="balanceGender"
-                checked={settings.balanceGender}
+                checked={localSettings.balanceGender}
                 onChange={(e) => updateSetting('balanceGender', e.target.checked)}
                 className="h-4 w-4"
               />
@@ -105,7 +105,7 @@ export default function SettingsPage() {
               <input
                 type="checkbox"
                 id="balanceAge"
-                checked={settings.balanceAge}
+                checked={localSettings.balanceAge}
                 onChange={(e) => updateSetting('balanceAge', e.target.checked)}
                 className="h-4 w-4"
               />
@@ -121,7 +121,7 @@ export default function SettingsPage() {
             </Button>
           </Link>
           <Link href="/results">
-            <Button>
+            <Button disabled={participants.length === 0}>
               席替えを実行
             </Button>
           </Link>
