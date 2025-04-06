@@ -42,3 +42,8 @@ next-env.d.ts
 
 # resource_files
 ._*
+
+# cursor
+/.cursor
+.cursorrules
+.cursorignore

@@ -43,7 +43,7 @@ function ParticipantCard({
           />
         </div>
 
-        <div>
+        <div className="gender-select">
           <Label htmlFor={`gender-${participant.id}`}>性別</Label>
           <Select
             value={participant.gender}
@@ -52,7 +52,7 @@ function ParticipantCard({
             <SelectTrigger id={`gender-${participant.id}`}>
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent id={`gender-dropdown-${participant.id}`}>
               <SelectItem value="male">男性</SelectItem>
               <SelectItem value="female">女性</SelectItem>
               <SelectItem value="other">その他</SelectItem>
@@ -60,7 +60,7 @@ function ParticipantCard({
           </Select>
         </div>
 
-        <div>
+        <div className="age-select">
           <Label htmlFor={`age-${participant.id}`}>年齢層</Label>
           <Select
             value={participant.ageGroup}
@@ -69,7 +69,7 @@ function ParticipantCard({
             <SelectTrigger id={`age-${participant.id}`}>
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent id={`age-dropdown-${participant.id}`}>
               <SelectItem value="child">子ども</SelectItem>
               <SelectItem value="teen">10代</SelectItem>
               <SelectItem value="adult">20-60代</SelectItem>
