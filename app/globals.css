@@ -77,25 +77,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* プルダウンメニューが適切に表示されるようにするための修正 */
-[data-radix-popper-content-wrapper] {
-  position: fixed !important;
-  top: auto !important;
-  left: auto !important;
-  transform: none !important;
-  z-index: 9999 !important;
-  max-height: var(--radix-popper-available-height) !important;
-}
-
-/* 各セレクトのカスタムスタイリング */
-.gender-select [data-radix-popper-content-wrapper] {
-  z-index: 9999 !important;
-}
-
-.age-select [data-radix-popper-content-wrapper] {
-  z-index: 9998 !important;
-}
-
 /* ボタンのカーソルスタイルを指マークに設定 */
 button, 
 .cursor-pointer,

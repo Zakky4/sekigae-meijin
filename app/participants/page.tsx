@@ -43,7 +43,7 @@ function ParticipantCard({
           />
         </div>
 
-        <div className="gender-select">
+        <div>
           <Label htmlFor={`gender-${participant.id}`}>性別</Label>
           <Select
             value={participant.gender}
@@ -60,7 +60,7 @@ function ParticipantCard({
           </Select>
         </div>
 
-        <div className="age-select mt-2">
+        <div>
           <Label htmlFor={`age-${participant.id}`}>年齢層</Label>
           <Select
             value={participant.ageGroup}
