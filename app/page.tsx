@@ -1,5 +1,11 @@
 import Link from 'next/link'
 import { Button } from "./components/ui/button"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "トップページ",
+  description: "簡単に席替えやグループ分けができるウェブアプリケーション。参加者の情報を入力するだけで、バランスの取れた席替えを実現します。",
+}
 
 export default function Home() {
   return (

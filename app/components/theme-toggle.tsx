@@ -8,6 +8,22 @@ import { useTheme } from "./theme-provider"
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = React.useState(false)
+  
+  // マウント後にのみクライアントサイドのテーマを反映
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // サーバーサイドレンダリング時はデフォルトのアイコンだけ表示
+  if (!mounted) {
+    return (
+      <Button variant="ghost" size="icon">
+        <Sun className="h-[1.2rem] w-[1.2rem]" />
+        <span className="sr-only">テーマ切替</span>
+      </Button>
+    )
+  }
 
   return (
     <Button
