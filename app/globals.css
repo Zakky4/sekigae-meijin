@@ -32,43 +32,41 @@
   --card-foreground: 222.2 84% 4.9%;
 }
 
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  
+  --primary: 210 40% 98%;
+  --primary-foreground: 222.2 47.4% 11.2%;
+  
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 212.7 26.8% 83.9%;
+  
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-  }
 }
 
 body {
@@ -79,53 +77,29 @@ body {
 
 /* ドロップダウンの背景を不透明にして適切に表示 */
 [data-radix-popper-content-wrapper] {
-  background-color: white !important;
+  background-color: var(--background) !important;
   opacity: 1 !important;
   z-index: 9999 !important;
 }
 
 .radix-select-content {
-  background-color: white !important;
-  border: 1px solid #e2e8f0 !important;
+  background-color: var(--background) !important;
+  border: 1px solid var(--border) !important;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
   opacity: 1 !important;
 }
 
 .radix-select-content [data-radix-select-viewport] {
-  background-color: white !important;
+  background-color: var(--background) !important;
 }
 
 .radix-select-content [data-radix-select-item] {
-  color: #000 !important;
+  color: var(--foreground) !important;
 }
 
 .radix-select-content [data-radix-select-item]:focus {
-  background-color: #f3f4f6 !important;
-  color: #000 !important;
-}
-
-@media (prefers-color-scheme: dark) {
-  [data-radix-popper-content-wrapper] {
-    background-color: #1f2937 !important;
-  }
-  
-  .radix-select-content {
-    background-color: #1f2937 !important;
-    border-color: #374151 !important;
-  }
-  
-  .radix-select-content [data-radix-select-viewport] {
-    background-color: #1f2937 !important;
-  }
-  
-  .radix-select-content [data-radix-select-item] {
-    color: #fff !important;
-  }
-  
-  .radix-select-content [data-radix-select-item]:focus {
-    background-color: #374151 !important;
-    color: #fff !important;
-  }
+  background-color: var(--accent) !important;
+  color: var(--accent-foreground) !important;
 }
 
 /* ボタンのカーソルスタイルを指マークに設定 */
