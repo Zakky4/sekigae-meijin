@@ -126,24 +126,44 @@ export default function ParticipantsPage() {
         // CSVを解析
         const lines = content.split('\n')
         
+        // 1行目未満の場合はエラー
+        if (lines.length < 2) {
+          setCsvError('CSVファイルは少なくとも2行（ヘッダー行とデータ行）必要です')
+          return
+        }
+        
+        // ヘッダー行を解析して列インデックスを特定
+        const headerLine = lines[0].trim()
+        const headers = headerLine.split(',').map(h => h.trim())
+        
+        // 名前と性別の列インデックスを検索
+        const nameIndex = headers.findIndex(h => h === '名前')
+        const genderIndex = headers.findIndex(h => h === '性別')
+        
+        // 必要な列が見つからない場合はエラー
+        if (nameIndex === -1 || genderIndex === -1) {
+          setCsvError('CSVファイルには「名前」と「性別」の列が必要です')
+          return
+        }
+        
         // 新しい参加者リスト
         const newParticipants: Participant[] = []
         
-        // 各行を処理（ヘッダー行をスキップするため1から開始も可能）
-        for (let i = 0; i < lines.length; i++) {
+        // 2行目以降を処理
+        for (let i = 1; i < lines.length; i++) {
           const line = lines[i].trim()
           if (!line) continue // 空行はスキップ
           
           const values = line.split(',')
           
-          // 最低でも名前と性別が必要
-          if (values.length < 2) continue
+          // 列数が足りない場合はスキップ
+          if (values.length <= Math.max(nameIndex, genderIndex)) continue
           
-          const name = values[0].trim()
+          const name = values[nameIndex].trim()
           let gender: 'male' | 'female' | 'other' = 'other'
           
           // 性別の判定
-          const genderValue = values[1].trim().toLowerCase()
+          const genderValue = values[genderIndex].trim().toLowerCase()
           if (genderValue === '男性' || genderValue === 'male' || genderValue === '男') {
             gender = 'male'
           } else if (genderValue === '女性' || genderValue === 'female' || genderValue === '女') {
@@ -227,8 +247,10 @@ export default function ParticipantsPage() {
                   className="flex-1"
                 />
                 <div className="bg-muted px-3 py-2 rounded-md text-sm">
-                  <p>形式: 名前,性別</p>
-                  <p>例: 山田太郎,男性</p>
+                  <p>1行目はヘッダー行として処理されます</p>
+                  <p>「名前」と「性別」の列が必要です</p>
+                  <p>例: 名前,性別</p>
+                  <p>　　山田太郎,男性</p>
                 </div>
               </div>
             </div>
