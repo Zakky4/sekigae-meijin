@@ -4,7 +4,7 @@ export interface Participant {
   id: string
   name: string
   gender: 'male' | 'female' | 'other'
-  ageGroup: 'child' | 'teen' | 'adult' | 'senior'
+  ageGroup: 'under20' | '20s' | '30s' | '40s' | '50s' | 'over60'
 }
 
 export interface Settings {

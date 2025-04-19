@@ -94,10 +94,31 @@ export default function ParticipantsPage() {
   // 初期化時にストアから参加者情報を取得（一度だけ）
   useEffect(() => {
     if (!initializedRef.current) {
-      setLocalParticipants(participants)
+      // 既存の参加者データの年齢区分を新しい形式に変換
+      const migratedParticipants = participants.map(p => ({
+        ...p,
+        ageGroup: migrateAgeGroup(p.ageGroup)
+      }))
+      setLocalParticipants(migratedParticipants)
+      setParticipants(migratedParticipants)
       initializedRef.current = true
     }
   }, [participants])
+
+  // 年齢区分の移行ヘルパー関数
+  function migrateAgeGroup(oldAgeGroup: string): 'under20' | '20s' | '30s' | '40s' | '50s' | 'over60' {
+    switch (oldAgeGroup) {
+      case 'child':
+      case 'teen':
+        return 'under20'
+      case 'adult':
+        return '20s'
+      case 'senior':
+        return 'over60'
+      default:
+        return '20s' // デフォルト値
+    }
+  }
 
   // 参加者を追加
   const addParticipant = () => {
