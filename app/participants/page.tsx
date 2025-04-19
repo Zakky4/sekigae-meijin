@@ -70,10 +70,12 @@ function ParticipantCard({
               <SelectValue />
             </SelectTrigger>
             <SelectContent id={`age-dropdown-${participant.id}`}>
-              <SelectItem value="child">子ども</SelectItem>
-              <SelectItem value="teen">10代</SelectItem>
-              <SelectItem value="adult">20-60代</SelectItem>
-              <SelectItem value="senior">70代以上</SelectItem>
+              <SelectItem value="under20">10代以下</SelectItem>
+              <SelectItem value="20s">20代</SelectItem>
+              <SelectItem value="30s">30代</SelectItem>
+              <SelectItem value="40s">40代</SelectItem>
+              <SelectItem value="50s">50代</SelectItem>
+              <SelectItem value="over60">60代以上</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -103,7 +105,7 @@ export default function ParticipantsPage() {
       id: Date.now().toString(),
       name: '',
       gender: 'other',
-      ageGroup: 'adult'
+      ageGroup: '20s'
     }
     const updatedParticipants = [...localParticipants, newParticipant]
     setLocalParticipants(updatedParticipants)
@@ -173,10 +175,10 @@ export default function ParticipantsPage() {
           // 有効な名前があれば参加者を追加
           if (name) {
             newParticipants.push({
-              id: Date.now().toString() + i, // ユニークIDを生成
+              id: Date.now().toString() + i,
               name,
               gender,
-              ageGroup: 'adult' // デフォルト値として設定
+              ageGroup: '20s'
             })
           }
         }
