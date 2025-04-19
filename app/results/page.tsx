@@ -114,9 +114,11 @@ export default function ResultsPage() {
           
           const metaDiv = document.createElement('div')
           metaDiv.textContent = `${member.gender === 'male' ? '男性' : member.gender === 'female' ? '女性' : 'その他'} / ${
-            member.ageGroup === 'child' ? '子ども' : 
-            member.ageGroup === 'teen' ? '10代' : 
-            member.ageGroup === 'adult' ? '20-60代' : '70代以上'
+            member.ageGroup === 'under20' ? '10代以下' : 
+            member.ageGroup === '20s' ? '20代' : 
+            member.ageGroup === '30s' ? '30代' : 
+            member.ageGroup === '40s' ? '40代' : 
+            member.ageGroup === '50s' ? '50代' : '60代以上'
           }`
           metaDiv.style.fontSize = '14px'
           metaDiv.style.color = document.documentElement.classList.contains('dark') ? '#9ca3af' : '#6b7280'
@@ -210,9 +212,11 @@ export default function ResultsPage() {
                       <div className="font-medium">{member.name || '名前なし'}</div>
                       <div className="text-sm text-gray-500">
                         {member.gender === 'male' ? '男性' : member.gender === 'female' ? '女性' : 'その他'} / 
-                        {member.ageGroup === 'child' ? '子ども' : 
-                         member.ageGroup === 'teen' ? '10代' : 
-                         member.ageGroup === 'adult' ? '20-60代' : '70代以上'}
+                        {member.ageGroup === 'under20' ? '10代以下' : 
+                         member.ageGroup === '20s' ? '20代' : 
+                         member.ageGroup === '30s' ? '30代' : 
+                         member.ageGroup === '40s' ? '40代' : 
+                         member.ageGroup === '50s' ? '50代' : '60代以上'}
                       </div>
                     </div>
                   </div>

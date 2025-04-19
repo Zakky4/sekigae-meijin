@@ -24,10 +24,12 @@ function calculateBalanceScore(group: Participant[]): number {
   }
 
   const ageCounts = {
-    child: group.filter(p => p.ageGroup === 'child').length,
-    teen: group.filter(p => p.ageGroup === 'teen').length,
-    adult: group.filter(p => p.ageGroup === 'adult').length,
-    senior: group.filter(p => p.ageGroup === 'senior').length
+    under20: group.filter(p => p.ageGroup === 'under20').length,
+    '20s': group.filter(p => p.ageGroup === '20s').length,
+    '30s': group.filter(p => p.ageGroup === '30s').length,
+    '40s': group.filter(p => p.ageGroup === '40s').length,
+    '50s': group.filter(p => p.ageGroup === '50s').length,
+    over60: group.filter(p => p.ageGroup === 'over60').length
   }
 
   const genderScore = Math.max(
@@ -37,12 +39,21 @@ function calculateBalanceScore(group: Participant[]): number {
   )
 
   const ageScore = Math.max(
-    Math.abs(ageCounts.child - ageCounts.teen),
-    Math.abs(ageCounts.child - ageCounts.adult),
-    Math.abs(ageCounts.child - ageCounts.senior),
-    Math.abs(ageCounts.teen - ageCounts.adult),
-    Math.abs(ageCounts.teen - ageCounts.senior),
-    Math.abs(ageCounts.adult - ageCounts.senior)
+    Math.abs(ageCounts.under20 - ageCounts['20s']),
+    Math.abs(ageCounts.under20 - ageCounts['30s']),
+    Math.abs(ageCounts.under20 - ageCounts['40s']),
+    Math.abs(ageCounts.under20 - ageCounts['50s']),
+    Math.abs(ageCounts.under20 - ageCounts.over60),
+    Math.abs(ageCounts['20s'] - ageCounts['30s']),
+    Math.abs(ageCounts['20s'] - ageCounts['40s']),
+    Math.abs(ageCounts['20s'] - ageCounts['50s']),
+    Math.abs(ageCounts['20s'] - ageCounts.over60),
+    Math.abs(ageCounts['30s'] - ageCounts['40s']),
+    Math.abs(ageCounts['30s'] - ageCounts['50s']),
+    Math.abs(ageCounts['30s'] - ageCounts.over60),
+    Math.abs(ageCounts['40s'] - ageCounts['50s']),
+    Math.abs(ageCounts['40s'] - ageCounts.over60),
+    Math.abs(ageCounts['50s'] - ageCounts.over60)
   )
 
   return genderScore + ageScore
