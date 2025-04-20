@@ -25,9 +25,10 @@ function ParticipantCard({
       <div className="flex justify-between items-center">
         <h3 className="font-semibold">参加者 {index + 1}</h3>
         <Button
-          variant="destructive"
+          variant="outline"
           size="sm"
           onClick={() => onRemove(participant.id)}
+          className="text-red-500 hover:text-red-700 hover:bg-red-100"
         >
           削除
         </Button>
@@ -293,11 +294,11 @@ export default function ParticipantsPage() {
         </div>
 
         <div className="flex justify-between">
-          <Button onClick={addParticipant}>
+          <Button onClick={addParticipant} className="orange-button">
             参加者を追加
           </Button>
           <Link href="/settings">
-            <Button disabled={localParticipants.length === 0}>
+            <Button disabled={localParticipants.length === 0} className="orange-button">
               次へ
             </Button>
           </Link>

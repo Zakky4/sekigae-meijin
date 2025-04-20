@@ -180,7 +180,7 @@ export default function ResultsPage() {
           <h1 className="text-3xl font-bold mb-6">参加者情報がありません</h1>
           <p className="mb-8">席替えを行うには参加者情報を入力してください。</p>
           <Link href="/participants">
-            <Button>
+            <Button className="orange-button">
               参加者情報入力に戻る
             </Button>
           </Link>
@@ -233,11 +233,11 @@ export default function ResultsPage() {
             </Button>
           </Link>
           <div className="space-x-4">
-            <Button onClick={downloadAsImage} disabled={downloading}>
+            <Button onClick={downloadAsImage} disabled={downloading} className="orange-button">
               {downloading ? 'ダウンロード中...' : '画像としてダウンロード'}
               {!downloading && <Download className="ml-2 h-4 w-4" />}
             </Button>
-            <Button onClick={copyToClipboard}>
+            <Button onClick={copyToClipboard} className="orange-button">
               {copied ? 'コピーしました！' : '結果をコピー'}
             </Button>
             <Link href="/">

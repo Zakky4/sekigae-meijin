@@ -121,7 +121,7 @@ export default function SettingsPage() {
             </Button>
           </Link>
           <Link href="/results">
-            <Button disabled={participants.length === 0}>
+            <Button disabled={participants.length === 0} className="orange-button">
               席替えを実行
             </Button>
           </Link>

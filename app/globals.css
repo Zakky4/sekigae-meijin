@@ -124,6 +124,15 @@ a {
   transform: translateY(-2px) !important;
 }
 
+/* disabledのスタイル */
+.orange-button:disabled,
+.orange-button[disabled] {
+  background-color: #FFCC80 !important;
+  color: rgba(0, 0, 0, 0.4) !important;
+  transform: none !important;
+  cursor: not-allowed !important;
+}
+
 /* ダークモード用の設定 */
 .dark .orange-button {
   background-color: #FFA726 !important;
@@ -132,4 +141,10 @@ a {
 
 .dark .orange-button:hover {
   background-color: #FF9800 !important;
+}
+
+.dark .orange-button:disabled,
+.dark .orange-button[disabled] {
+  background-color: #804000 !important;
+  color: rgba(255, 255, 255, 0.4) !important;
 }
