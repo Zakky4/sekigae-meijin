@@ -4,8 +4,8 @@
   --background: #ffffff;
   --foreground: #171717;
   
-  --primary: 222.2 47.4% 11.2%;
-  --primary-foreground: 210 40% 98%;
+  --primary: 36 100% 57%;
+  --primary-foreground: 51 6% 25%;
   
   --secondary: 210 40% 96.1%;
   --secondary-foreground: 222.2 47.4% 11.2%;
@@ -36,8 +36,8 @@
   --background: #0a0a0a;
   --foreground: #ededed;
   
-  --primary: 210 40% 98%;
-  --primary-foreground: 222.2 47.4% 11.2%;
+  --primary: 36 100% 57%;
+  --primary-foreground: 0 0% 100%;
   
   --secondary: 217.2 32.6% 17.5%;
   --secondary-foreground: 210 40% 98%;
@@ -108,4 +108,28 @@ button,
 [role="button"],
 a {
   cursor: pointer !important;
+}
+
+/* フラットデザインのオレンジボタン */
+.orange-button {
+  background-color: #FFA726 !important;
+  color: #404040 !important;
+  border: none !important;
+  box-shadow: none !important;
+  transition: all 0.2s ease !important;
+}
+
+.orange-button:hover {
+  background-color: #FF9800 !important;
+  transform: translateY(-2px) !important;
+}
+
+/* ダークモード用の設定 */
+.dark .orange-button {
+  background-color: #FFA726 !important;
+  color: white !important;
+}
+
+.dark .orange-button:hover {
+  background-color: #FF9800 !important;
 }

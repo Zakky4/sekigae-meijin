@@ -26,8 +26,12 @@ export default function Home() {
             <li>• 結果の表示と出力</li>
           </ul>
           <Link href="/participants">
-            <Button size="lg" className="text-lg">
-              席替えを始める
+            <Button 
+              variant="default"
+              size="lg" 
+              className="orange-button text-lg px-8 py-6 font-bold rounded-md"
+            >
+              参加者情報の入力へ進む
             </Button>
           </Link>
         </div>
