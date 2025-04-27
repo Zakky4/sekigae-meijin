@@ -91,6 +91,8 @@ export default function ParticipantsPage() {
   const [localParticipants, setLocalParticipants] = useState<Participant[]>([])
   const initializedRef = useRef(false)
   const [csvError, setCsvError] = useState<string | null>(null)
+  const [csvFileName, setCsvFileName] = useState<string>("")
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
 
   // 初期化時にストアから参加者情報を取得（一度だけ）
   useEffect(() => {
@@ -134,11 +136,24 @@ export default function ParticipantsPage() {
     setParticipants(updatedParticipants)
   }
 
+  // サンプルCSVダウンロード
+  const handleSampleDownload = () => {
+    const sample = '名前\n山田太郎\n佐藤花子'
+    const blob = new Blob([sample], { type: 'text/csv' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'sample.csv'
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
   // CSVファイルからのインポート
   const handleCsvImport = (event: ChangeEvent<HTMLInputElement>) => {
     setCsvError(null)
     const file = event.target.files?.[0]
     if (!file) return
+    setCsvFileName(file.name)
 
     const reader = new FileReader()
     
@@ -253,30 +268,40 @@ export default function ParticipantsPage() {
         <h1 className="text-3xl font-bold mb-6">参加者情報の入力</h1>
         
         {csvError && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            {csvError}
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 flex items-center gap-2">
+            <span className="font-bold text-xl">&#9888;</span>
+            <span className="font-bold">{csvError}</span>
           </div>
         )}
         
         <div className="mb-6">
-          <div className="flex items-center space-x-4">
-            <div className="flex-1">
-              <Label htmlFor="csv-import" className="mb-2 block">CSVインポート</Label>
-              <div className="flex items-center gap-2">
-                <Input
-                  id="csv-import"
-                  type="file"
-                  accept=".csv"
-                  onChange={handleCsvImport}
-                  className="flex-1"
-                />
-                <div className="bg-muted px-3 py-2 rounded-md text-sm">
-                  <p>1行目はヘッダー行として処理されます</p>
-                  <p>「名前」の列が必要です</p>
-                  <p>例: 名前</p>
-                  <p>　　山田太郎</p>
-                </div>
-              </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="csv-import" className="mb-2 block">CSVインポート</Label>
+            <div className="flex items-center gap-2">
+              <input
+                id="csv-import"
+                type="file"
+                accept=".csv"
+                ref={fileInputRef}
+                onChange={handleCsvImport}
+                className="hidden"
+              />
+              <Button type="button" variant="outline" onClick={() => fileInputRef.current?.click()}>
+                CSVファイルを選択
+              </Button>
+              {csvFileName && (
+                <span className="text-sm text-gray-600">{csvFileName}</span>
+              )}
+              <Button type="button" variant="secondary" onClick={handleSampleDownload}>
+                サンプルCSVダウンロード
+              </Button>
+            </div>
+            <div className="border bg-muted px-3 py-2 rounded-md text-sm mt-2">
+              <p className="font-semibold mb-1">CSV仕様</p>
+              <p>1行目はヘッダー行として処理されます</p>
+              <p>「名前」の列が必要です</p>
+              <p>例: 名前</p>
+              <p>　　山田太郎</p>
             </div>
           </div>
         </div>
