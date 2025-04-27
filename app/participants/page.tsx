@@ -160,13 +160,14 @@ export default function ParticipantsPage() {
         const headerLine = lines[0].trim()
         const headers = headerLine.split(',').map(h => h.trim())
         
-        // 名前と性別の列インデックスを検索
+        // 名前の列インデックスを検索
         const nameIndex = headers.findIndex(h => h === '名前')
+        // 性別の列インデックスを検索（任意）
         const genderIndex = headers.findIndex(h => h === '性別')
         
-        // 必要な列が見つからない場合はエラー
-        if (nameIndex === -1 || genderIndex === -1) {
-          setCsvError('CSVファイルには「名前」と「性別」の列が必要です')
+        // 名前列が見つからない場合はエラー
+        if (nameIndex === -1) {
+          setCsvError('CSVファイルには「名前」の列が必要です')
           return
         }
         
@@ -180,29 +181,28 @@ export default function ParticipantsPage() {
           
           const values = line.split(',')
           
-          // 列数が足りない場合はスキップ
-          if (values.length <= Math.max(nameIndex, genderIndex)) continue
-          
+          // 名前がなければスキップ
+          if (values.length <= nameIndex) continue
           const name = values[nameIndex].trim()
+          if (!name) continue
+
+          // 性別の判定（列があれば値を反映、なければother）
           let gender: 'male' | 'female' | 'other' = 'other'
-          
-          // 性別の判定
-          const genderValue = values[genderIndex].trim().toLowerCase()
-          if (genderValue === '男性' || genderValue === 'male' || genderValue === '男') {
-            gender = 'male'
-          } else if (genderValue === '女性' || genderValue === 'female' || genderValue === '女') {
-            gender = 'female'
+          if (genderIndex !== -1 && values.length > genderIndex) {
+            const genderValue = values[genderIndex].trim().toLowerCase()
+            if (genderValue === '男性' || genderValue === 'male' || genderValue === '男') {
+              gender = 'male'
+            } else if (genderValue === '女性' || genderValue === 'female' || genderValue === '女') {
+              gender = 'female'
+            }
           }
           
-          // 有効な名前があれば参加者を追加
-          if (name) {
-            newParticipants.push({
-              id: Date.now().toString() + i,
-              name,
-              gender,
-              ageGroup: '20s'
-            })
-          }
+          newParticipants.push({
+            id: Date.now().toString() + i,
+            name,
+            gender,
+            ageGroup: '20s'
+          })
         }
         
         // 有効な参加者が1人以上いればインポート
@@ -272,9 +272,9 @@ export default function ParticipantsPage() {
                 />
                 <div className="bg-muted px-3 py-2 rounded-md text-sm">
                   <p>1行目はヘッダー行として処理されます</p>
-                  <p>「名前」と「性別」の列が必要です</p>
-                  <p>例: 名前,性別</p>
-                  <p>　　山田太郎,男性</p>
+                  <p>「名前」の列が必要です</p>
+                  <p>例: 名前</p>
+                  <p>　　山田太郎</p>
                 </div>
               </div>
             </div>
